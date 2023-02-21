@@ -1,32 +1,28 @@
 import boto3
 import os
-
-from botocore.config import Config
-
-my_config = Config(
-    region_name = 'eu-west-2',
-    signature_version = 'v4',
-    retries = {
-        'max_attempts': 10,
-        'mode': 'standard'
-    }
+# aws_access_key_id = os.environ['aws_access_key_id']
+# aws_secret_access_key = os.environ['aws_secret_access_key']
+# aws_region = os.environ['aws_region']
+ec2 = boto3.resource(
+    'ec2',
+    region_name = os.environ['aws_region'],
+    aws_access_key_id = os.environ['aws_access_key_id'],
+    aws_secret_access_key = os.environ['aws_secret_access_key']
 )
-
-client = boto3.client('kinesis', config=my_config)
-
 client = boto3.client(
     'ec2',
-    config=my_config,
+    region_name=os.environ['aws_region'],
     aws_access_key_id=os.environ['aws_access_key_id'],
     aws_secret_access_key=os.environ['aws_secret_access_key']
+
 )
 client_elb = boto3.client(
     'elbv2',
-    config=my_config,
+    region_name=os.environ['aws_region'],
     aws_access_key_id=os.environ['aws_access_key_id'],
     aws_secret_access_key=os.environ['aws_secret_access_key']
 )
-security_group = client.SecurityGroup('id')
+security_group = ec2.SecurityGroup('id')
 waiter = client.get_waiter('nat_gateway_available')
 waiter_ec2 = client.get_waiter('instance_running')
 vpc_sidr = str('10.0.0.0/16')
