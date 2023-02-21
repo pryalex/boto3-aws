@@ -1,7 +1,9 @@
+version: '3.8'
 services:
   web:
     build:
+      dockerfile: Dockerfile
     environment:
-      aws_access_key_id = ''
-      aws_secret_access_key ''
-      aws_region = ''
+      aws_access_key_id: ''
+      aws_secret_access_key: ''
+      aws_region: ''
