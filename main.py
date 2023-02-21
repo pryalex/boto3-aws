@@ -1,12 +1,19 @@
 import boto3
 import os
-aws_access_key_id = os.environ['aws_access_key_id']
-aws_secret_access_key = os.environ['aws_secret_access_key']
-aws_region = os.environ['aws_region']
-ec2 = boto3.resource('ec2')
-client = boto3.client('ec2')
-client_elb = boto3.client('elbv2')
-security_group = ec2.SecurityGroup('id')
+
+client = boto3.client(
+    'ec2',
+    aws_access_key_id=os.environ['aws_access_key_id'],
+    aws_secret_access_key=os.environ['aws_secret_access_key'],
+    aws_session_token=os.environ['aws_region']
+)
+client_elb = boto3.client(
+    'elbv2',
+    aws_access_key_id=os.environ['aws_access_key_id'],
+    aws_secret_access_key=os.environ['aws_secret_access_key'],
+    aws_session_token=os.environ['aws_region']
+)
+security_group = client.SecurityGroup('id')
 waiter = client.get_waiter('nat_gateway_available')
 waiter_ec2 = client.get_waiter('instance_running')
 vpc_sidr = str('10.0.0.0/16')
