@@ -182,7 +182,7 @@ waiter.wait(
         nat_gw['NatGateway']["NatGatewayId"],
     ],
     WaiterConfig={
-        'Delay': 50,
+        'Delay': 100,
         'MaxAttempts': 60
     }
 )
